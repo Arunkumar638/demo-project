@@ -1,0 +1,49 @@
+
+.main{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    flex: 1 1 0%;
+    padding: 0rem 5rem;
+    text-align: center;
+    margin-top: 2rem;
+    margin-bottom: 5rem;
+}
+
+.headertext{
+    color: #0B409c;
+    font-size: 1.875rem;
+    font-weight: 700;
+    font-family: 'Roboto Slab Variable', sans-serif;
+}
+.input{
+    width: 80%;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    font-family: 'Roboto Slab Variable', sans-serif;
+    color: #a3a8ab;
+    border:none;
+    gap: 0.5rem;
+  }
+
+.align{
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
+
+.button{
+    background-color: #0B409c;
+    width: 80%;
+    height: 40px;
+    color: white;
+    font-size:0.875rem;
+    line-height: 1.25rem;
+    font-family: 'Roboto Slab Variable', sans-serif;
+    margin-right: 15rem;
+}
+
+.card{
+    padding: 1rem;
+    width: 35%;
+    background-color:#f2f7ff;
+}

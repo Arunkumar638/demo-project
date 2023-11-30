@@ -1,0 +1,66 @@
+.profileCard {
+    display: flex;
+    margin-top: 20%;
+    position: absolute;
+    margin-left: 20%;
+    transform: translate(-1%, -60%);
+    padding: 0 5%;  
+    padding-bottom: 6%;
+    background-attachment: fixed;
+    border-radius: 2rem;
+    border: 1px solid #ccc;
+    box-shadow: 0 2px 10px rgba(43, 17, 160, 0.1);
+    z-index: 2;
+  }
+  
+  .cardContent {
+    text-align: center;
+    margin-top: 10%;
+    font-family: 'Roboto Slab Variable', sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    color: #0b409c;
+    z-index: 20;
+  }
+  
+  .closeButton {
+    display: inline-block;
+    position: absolute;
+    font-size: 14px;
+    line-height: 12px;
+    height: 38px;
+    font-weight: 600;
+    font-family: 'Roboto Slab Variable', sans-serif;
+    padding: 3% 6%;
+    margin-top: 2rem;
+    margin-left: 3.5rem;
+    background-color: #0b409c;
+    color: #fff;
+  }
+  
+  .closeButton:hover {
+    background-color: #f2f7ff;
+    color: #0b409c;
+    border-color: #0b409c;
+  }
+  
+  .avatar {
+    position: relative;
+    margin-left: 3.5rem;
+  }
+  
+  .close {
+    position: absolute;
+    top: 3%;
+    left: 90%;
+    cursor: pointer;
+  }
+  
+  .show {
+    display: inline-block;
+    background: transparent;
+  }
+  
+  .hide {
+    display: none;
+  }
