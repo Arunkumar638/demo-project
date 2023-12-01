@@ -12,7 +12,6 @@ exports.registerUser = async (req, res) => {
       name,
       email,
       password,
-      confirmPassword,
       gender,
       department
     } = req.body;
@@ -34,7 +33,6 @@ exports.registerUser = async (req, res) => {
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
   
-
     const newUser = new User({
       name,
       email,
@@ -70,8 +68,10 @@ exports.loginUser = async(req , res) =>{
     if (!user) {
       return res.status(401).json({ message: 'Invalid user', status:false });
     }
-    const userExist = await Login.findOne({email});
+    const userExist = await Login.findOne({ email });
+    
     if(userExist){
+    try {
       const isPasswordCorrect = await bcrypt.compare(password, user.password);
       if (!isPasswordCorrect) {
         return res.status(401).json({ message: 'Invalid password', status:false });
@@ -83,11 +83,12 @@ exports.loginUser = async(req , res) =>{
         new: true
       }
       );
-      if(login){
-      return res.status(201).json({ message: 'Login Succcess', status:"Success" });
-      }
-      return res.status(401).json({ message: 'Login Failed', status:"Failed" });
+     return res.status(201).json({ message: 'Login Succcess', status:"Success" });
+
+    } catch(error){
+      return res.status(401).json({ message: 'Login Failed', status:"Failed", error: error.message });
     }
+  }
     // Check if the password is correct
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
@@ -104,7 +105,7 @@ exports.loginUser = async(req , res) =>{
       token:token
     });
     await LoginUser.save();
-    res.json({ message: 'Login successful', token, status:true });
+    res.status(201).json({ message: 'Login successful', token, status:true });
   } catch (error) {
     res.status(500).json({ message: 'Failed to login', error: error.message });
   }
@@ -166,7 +167,7 @@ exports.resetUserByEmail = async (req, res) => {
     }
     );
  
-    if (!register && !login) {
+    if (!register) {
       return res.status(404).json({
         message: 'User not found'
       });
@@ -174,11 +175,12 @@ exports.resetUserByEmail = async (req, res) => {
 
     res.json({
       message: 'Password updated successfully',
-      login
+      status:true,
     });
   } catch (error) {
     res.status(500).json({
       message: 'Failed to update password',
+      status:false,
       error: error.message
     });
   }
@@ -191,16 +193,19 @@ exports.deleteUserById = async (req, res) => {
 
     if (!user) {
       return res.status(404).json({
-        message: 'User not found'
+        message: 'User not found',
+        status:false
       });
     }
 
     res.json({
-      message: 'User deleted successfully'
+      message: 'User deleted successfully',
+      status:true
     });
   } catch (error) {
     res.status(500).json({
       message: 'Failed to delete user',
+      status:false,
       error: error.message
     });
   }
@@ -211,7 +216,7 @@ exports.getAllUser = async (req, res) => {
     const user = await User.find();
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to get all users', error: error.message });
+    res.status(500).json({ message: 'Failed to get all users', status:false, error: error.message });
   }
 };
 
@@ -222,12 +227,13 @@ exports.loginStatus = async (req , res) =>{
 
     if (!user) {
       return res.status(404).json({
-        message: 'User not found'
+        message: 'User not found',
+        status:false
       });
     }
     res.json(user);
   } catch (error) {
-    res.status(500).json({ message: 'Failed to get all users', error: error.message });
+    res.status(500).json({ message: 'Failed to get all users', status:false, error: error.message });
   }
 }
 
@@ -240,15 +246,17 @@ exports.deleteUserByToken = async (req , res) =>{
 
     if (!user) {
       return res.status(404).json({
-        message: 'User not found'
+        message: 'User not found',
+        status:false
       });
     }
     const deleteUser = await Login.findByIdAndDelete(user._id);
     res.json({
       message: 'User deleted successfully',
+      status:true,
       data:deleteUser
     });
   } catch (error) {
-    res.status(500).json({ message: 'Failed to get all users', error: error.message });
+    res.status(500).json({ message: 'Failed to get all users',status:false, error: error.message });
   }
 }
