@@ -9,7 +9,7 @@ import { getAllUser, deleteUser, editUser } from "@/actions/userAction";
 import 'core-js-pure/stable/object/assign';
 import Profilecard from '../../components/profilecard';
 import { Space, Table, Button, Input, Radio, Cascader } from 'antd';
-import AddressPopupForm from "@/components/addressPopup";
+import EditPopupForm from "@/components/editPopup";
 import styles from './users.module.css'
 import type { ColumnsType } from 'antd/es/table';
 import { Header } from "antd/es/layout/layout";
@@ -41,14 +41,14 @@ const users = () =>{
     id:"",
     name: "",
     gender: "",
-    qualification: "",
+    department: "",
   })
   const back = () =>{
     router.push('/');
   }
   const editUserData = (details: any) =>{
     details.gender = gender;
-    details.qualification = qualify;
+    details.department = qualify;
     editUser(details).then((data)=>{
       clear();
       setIsEditPopupVisible(false);
@@ -75,12 +75,12 @@ const users = () =>{
   }
   const editSetup = (data: any) =>{
     setIsEditPopupVisible(true);
-    const mail = data.mail;
+    const mail = data.email;
     setUserMail(mail);
     updatedDetails.id = data._id;
     updatedDetails.name = data.name;
     setGender(data.gender);
-    setDefaultQualification(data.qualification);
+    setDefaultQualification(data.department);
   }
   const radioChange = (e: RadioChangeEvent) => {
     setGender(e.target.value);
@@ -106,12 +106,12 @@ const users = () =>{
       id:'',
       name:'',
       gender:'',
-      qualification:''
+      department:''
     })
   }
   const genderValue = {
-    male: "male",
-    female: "female",
+    male: "Male",
+    female: "Female",
   };
 
   const data: DataType[] = users;
@@ -147,9 +147,9 @@ const users = () =>{
       
     },
     {
-      title: 'Mail',
-      dataIndex: 'mail',
-      key: 'mail',
+      title: 'Email',
+      dataIndex: 'email',
+      key: 'email',
     },
     {
       title: 'Gender',
@@ -157,9 +157,9 @@ const users = () =>{
       key: 'gender',
     },
     {
-      title: 'Qualification',
-      key: 'qualification',
-      dataIndex: 'qualification',
+      title: 'Department',
+      key: 'department',
+      dataIndex: 'department',
     },
     {
       title: 'Action',
@@ -204,12 +204,12 @@ const users = () =>{
           No
         </Button>
       </DeleteUser>
-      <AddressPopupForm trigger={isEditPopupVisible}>
+      <EditPopupForm trigger={isEditPopupVisible}>
           <Avatar src='../Assets/savechanges.png' className={styles.save} round size='20' onClick={() => editUserData(updatedDetails)}/>
           <Avatar src='../Assets/clear.png' className={styles.clear} round size='20' onClick={clear}/>
           <Avatar src='../Assets/close.png' className={styles.close} round size='20' onClick={() => setIsEditPopupVisible(false)}/>
 
-        <h2>Enter Your Details</h2>
+        <h2 className={styles.headertext1}>Enter Your Details</h2>
         <br />
 
         <label>Name</label>
@@ -265,7 +265,7 @@ const users = () =>{
               />
         </div>
         <br />
-      </AddressPopupForm>
+      </EditPopupForm>
         </div>
     )
 }

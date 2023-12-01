@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, Card, Col, Input } from "antd";
-import { Upload, Radio, notification, Modal, Form, Select } from "antd";
+import { Button, Card, Input } from "antd";
+import { Upload, Radio, Modal, Form, Select } from "antd";
 import { useState } from "react";
 import { MdLockOutline } from "react-icons/md";
 import { MailOutlined, SolutionOutlined, AuditOutlined, PlusOutlined } from "@ant-design/icons";
@@ -56,18 +56,27 @@ export default function Home() {
     }
   };
   const onFinish = (values: any) => {
-    const uploadedFile = fileList[0];
-    values.image =  uploadedFile.originFileObj;
-    console.log("values", values);
+    if(fileList.length > 0){
+      const uploadedFile = fileList[0];
+      values.image =  uploadedFile.originFileObj;
+    }
+
     save(values).then((data)=>{
-      alert(data.message);
-      console.log(data);
+
+      if(data.status == true){
+        router.push('/login');
+      }
+      else{
+        alert(data.message);
+        return false;
+      }
+
     }).catch((err)=>{
       console.log(err);
     })
-    // form.resetFields();
   };
 
+  
   const validateMessages = {
     required: '${label} is required!',
     types: {
@@ -88,14 +97,13 @@ export default function Home() {
         <Card className={styles.card}>
           <h3 className={styles.headertext}>Register</h3>
           <Form
-              name="nest-messages"
+              name="register-form"
               onFinish={onFinish}
               form={form}
               className='mt-8'
               onFinishFailed={onFinishFailed}
               validateMessages={validateMessages}
-              encType="multipart/form-data"
-            >
+              encType="multipart/form-data">
               <Form.Item name='name' rules={[{ required: true }]}>
                 <Input className={styles.input} placeholder='Name' size='large' prefix={<SolutionOutlined/>}/>
               </Form.Item>
@@ -117,24 +125,22 @@ export default function Home() {
               </Form.Item>
               <Form.Item label="Department" name="department" style={{ marginLeft:'1.5rem' }} rules={[{ required: true}]}>
                 <Select style={{ width:120, marginRight:'5rem'}}>
-                  <Select.Option value="mca">MCA</Select.Option>
-                  <Select.Option value="bca">BCA</Select.Option>
-                  <Select.Option value="m.sc">M.sc</Select.Option>
-                  <Select.Option value="b.sc">B.sc</Select.Option>
+                  <Select.Option value="MCA">MCA</Select.Option>
+                  <Select.Option value="BCA">BCA</Select.Option>
+                  <Select.Option value="M.sc">M.sc</Select.Option>
+                  <Select.Option value="B.sc">B.sc</Select.Option>
                 </Select>
               </Form.Item>
-              <Form.Item label="Upload" valuePropName="fileList" style={{ marginLeft:'2rem' }}>
+              <Form.Item label="Upload" valuePropName="fileList" style={{ marginLeft:'2rem' }} >
                 <div className='mr-20'>
                   <Upload
-                  action="https://localhost:3000/uploads"
                   listType="picture-card"
                   fileList={fileList || []} 
                   maxCount={1}                
                   name='uploadImage'
                   accept="image/*"
                   onPreview={handlePreview}
-                  onChange={handleImageChange}
-                  >
+                  onChange={handleImageChange}>
                     {fileList.length == 1 ? null : uploadButton}
                   </Upload>
                   <Modal open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>

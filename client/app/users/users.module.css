@@ -25,14 +25,20 @@
   line-height: 1.5rem;
 }
 
-.headertext {
+.headertext{
+  color: #0B409c;
   font-size: 1.875rem;
-  font-family: ui-serif, Georgia, Cambria, 'Times New Roman', Times, serif;
   font-weight: 700;
   margin-left: 125px;
-  color: rgb(190, 116, 18);
+  font-family: 'Roboto Slab Variable', sans-serif;
 }
-  
+
+.headertext1{
+  color: #0B409c;
+  font-size: 1.875rem;
+  font-weight: 700;
+  font-family: 'Roboto Slab Variable', sans-serif;
+}
 .close {
   position: absolute;
   top: 10px;

@@ -17,6 +17,9 @@ const config: Config = {
     colors:{
       'dark-blue':'#0B409c'
     },
+    fontFamily:{
+      'roboto':'Roboto Slab Variable, sans-serif',
+    },
     extend: {
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

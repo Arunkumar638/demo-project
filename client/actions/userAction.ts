@@ -1,21 +1,15 @@
 import axios from "axios";
-import exp from "constants";
 
 const baseUrl = 'http://localhost:8000';
-export const save = async (data: {
-  name: String;
-  mail: String;
-  gender: String;
-  qualification: String;
-  password: String;
-  confirmPassword: String;
-  image:any
-}) => {
+
+export const save = async (data:any) => {
+  
+  console.log("My Data",data);
   return axios({
     method: "post",
     url: `${baseUrl}/register`,
     headers: {
-      // "Content-Type": "application/json",
+      "Content-Type": "multipart/form-data",
       "Access-Control-Allow-Origin": "*",
     },
     data: data,
@@ -35,10 +29,7 @@ export const save = async (data: {
     });
 };
 
-export const loginUser = async (data: {
-  mail: String;
-  password: String;
-}) => {
+export const loginUser = async (data: any) => {
 
   return axios({
     method: "post",
@@ -63,11 +54,7 @@ export const loginUser = async (data: {
       }
     });
 };
-export const editUser = async (data: {
-  name: String;
-  gender: String;
-  qualification: String;
-}) => {
+export const editUser = async (data: any) => {
 
   return axios({
     method: "put",
@@ -78,6 +65,32 @@ export const editUser = async (data: {
     },
     data: data,
     timeout: 5000, // Set a timeout of 5 seconds (adjust as needed)
+  })
+    .then((response) => {
+      console.log(response.data);
+      return response.data;
+    })
+    .catch((error) => {
+      console.error("Error:", error);
+      if (error.response) {
+        alert(error.response.data);
+        console.log("Response data:", error.response.data);
+        console.log("Response status:", error.response.status);
+      }
+    });
+};
+
+export const reset = async (data:any) => {
+
+  return axios({
+    method: "put",
+    url: `${baseUrl}/reset`,
+    headers: {
+      "Content-Type": "multipart/form-data",
+      "Access-Control-Allow-Origin": "*",
+    },
+    data: data,
+    timeout: 5000, 
   })
     .then((response) => {
       console.log(response.data);
@@ -143,7 +156,7 @@ export const getAllUser = async () => {
     });
 };
 
-export const loginStatus = async (data:{token:String | null}) => {
+export const loginStatus = async (data:{ token:String | null }) => {
   return axios({
     method: "post",
     url: `${baseUrl}/login-status`,

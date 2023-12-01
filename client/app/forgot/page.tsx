@@ -1,44 +1,41 @@
 "use client"
 
 import { Card, Input, Button, Form } from "antd";
-import styles from './login.module.css';
+import styles from './forgot.module.css';
 import { useRouter } from "next/navigation";
-import { loginUser } from '../../actions/userAction';
+import { reset } from '../../actions/userAction';
 import {
     MailOutlined,
-    LoginOutlined
+    ReloadOutlined
   } from "@ant-design/icons";
   import { MdLockOutline } from "react-icons/md";
-const loginPage = () =>{
+const forgotPage = () =>{
     const router = useRouter();
     const [form] = Form.useForm();
     const userRoute = () => {
-        router.push("/users");
+        router.push("/login");
       };
 
     const onFinish = (values: any) => {
-
-      loginUser(values).then((data)=>{
-        if(data.status = "Succcess"){
-          alert(data.message);
-          userRoute();
-          return;
-        }
-        localStorage.setItem('token',data.token);
-        form.resetFields();
+        reset(values).then((data)=>{
+        alert(data.message);
         userRoute();
       }).catch((err)=>{
         console.log(err);
       })
+      form.resetFields();
     };
     const onFinishFailed = (errorInfo: any) => {
       console.log('Failed:', errorInfo);
       console.error('Form submission failed');
     };
+    const validatePassword = async (_: any, value: any) => {
+        const password = form.getFieldValue('password');
+        if (password && value !== password) {
+          throw new Error('Passwords do not match');
+        }
+      };
 
-    const navgot = ()=>{
-      router.push('/forgot')
-    }
   const validateMessages = {
     required: '${label} is required!',
     types: {
@@ -51,7 +48,7 @@ const loginPage = () =>{
     return(
     <div className={styles.main}>
       <Card className={styles.card}>
-        <h3 className={styles.headertext}>Login</h3>
+        <h3 className={styles.headertext}>Reset</h3>
             <Form
               name="login-form"
               onFinish={onFinish}
@@ -67,12 +64,15 @@ const loginPage = () =>{
               <Form.Item name="password" rules={[{ required: true}]}>
                 <Input.Password className={styles.input} placeholder='Password' size='large' prefix={<MdLockOutline/>}/>
               </Form.Item>
-              <button onClick={navgot} className={styles.button1}>Forgot Password?</button><br/>
+              <Form.Item name="confirmPassword" dependencies={['password']}
+                  rules={[{ required: true },{ validator: validatePassword },]}>
+                <Input.Password className={styles.input} placeholder='Confirm Password' size='large' prefix={<MdLockOutline/>}/>
+              </Form.Item>
                 <Form.Item wrapperCol={{ offset: 4 }}>
                 <Button className={styles.button} 
                   htmlType="submit"
-                  icon={<LoginOutlined size={30}/>}>
-                    Sign In
+                  icon={<ReloadOutlined size={30}/>}>
+                    Reset
                 </Button>
               </Form.Item>
             </Form>
@@ -81,4 +81,4 @@ const loginPage = () =>{
 )
 }
 
-export default loginPage;
+export default forgotPage;

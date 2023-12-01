@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from './styles.module.css';
 
-const AddressPopupForm = (props: any) => {
+const EditPopupForm = (props: any) => {
   return props.trigger ? (
     <div className={styles.popup}>
       <div className={styles.popupInner}>{props.children}</div>
@@ -11,4 +11,4 @@ const AddressPopupForm = (props: any) => {
   );
 };
 
-export default AddressPopupForm;
+export default EditPopupForm;

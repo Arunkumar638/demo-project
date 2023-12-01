@@ -16,7 +16,7 @@
     padding: 70px 0px 70px;
     width: 100%;
     max-width: 440px;
-    background-color: silver;
+    background-color: #f2f7ff;
   }
 
   .popup {
@@ -27,6 +27,7 @@
     height: 100vh;
     background-color: transparent;
     display: flex;
+    border-radius: 3rem;
     justify-content: center;
     align-items: center;
   }
@@ -36,5 +37,5 @@
     padding: 32px;
     width: 100%;
     max-width: 400px;
-    background-color: silver;
+    background-color: #f2f7ff;
   }

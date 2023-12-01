@@ -15,7 +15,8 @@ const Profilecard = ({ isOpen, onClose }: any) => {
     const token = localStorage.getItem('token');
     const data =  { token:token }
     loginStatus(data).then((data)=>{
-        setUserData(data.mail);
+        setUserData(data.email);
+        // console.log(data);
     }).catch((error)=>{
         console.error("Error:", error);
         if (error.response) {
