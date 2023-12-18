@@ -76,7 +76,6 @@ export default function Home() {
     })
   };
 
-  
   const validateMessages = {
     required: '${label} is required!',
     types: {
